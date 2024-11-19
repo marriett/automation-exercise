@@ -1,0 +1,41 @@
+/// <reference types = "Cypress"/>
+describe('Validação Login', () => {
+  const nome = "Marrie"
+  const email = "marri@ett.com"
+  it('Acessar URL com sucesso', () => {
+    cy.visit('https://automationexercise.com')
+    cy.get('div[class="logo pull-left"]').should('be.visible')
+    cy.title().should('be.eq', 'Automation Exercise')
+  })
+  it.only('Acessar URL com sucesso', () => {
+    cy.visit('https://automationexercise.com')
+    cy.get('div[class="logo pull-left"]').should('be.visible')
+    cy.title().should('be.eq', 'Automation Exercise')
+    cy.get('a').contains('Signup / Login').click()
+    cy.get('input[name = "name"]').should('be.visible').type("Marri")
+    cy.get('input[data-qa = "signup-email"]').should('be.visible').type("marri@mail.com")
+    cy.get('button[data-qa = "signup-button"]').should('be.visible').click()
+    cy.get('h2').contains('Enter Account Information').should('be.visible')
+    cy.get('#id_gender2').click()
+    cy.get('#name').should('have.value', 'Marri')
+    cy.get('#email').should('have.value', 'marri@mail.com')
+    cy.get('#password').type("adg")
+    cy.get('#days').select('31')
+    cy.get('#months').select('2')
+    cy.get('#years').select('2021')
+    cy.get('#first_name').type('Marri')
+    cy.get('#last_name').type('Albuquerque')
+    cy.get('#address1').type('Rua dos bobos')
+    cy.get('#country').select('United States')
+    cy.get('#state').type('Arizona')
+    cy.get('#city').type('Phoenix')
+    cy.get('#zipcode').type('12345')
+    cy.get('#mobile_number').type('1234567890123')
+    cy.get('button').contains('Create Account').click()
+    // Validação
+    cy.get('h2[data-qa="account-created"]').should('be.visible')
+    cy.get('h2[data-qa="account-created"]').should('have.text', 'Account Created!')
+    cy.get('[data-qa="continue-button"]').should('be.visible').click()
+    cy.get('[href="/logout"]').should('be.visible')
+  })
+})
